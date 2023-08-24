@@ -3,6 +3,7 @@ package ir.maktabsharif92.springboot.base.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -12,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-//@EnableMethodSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Autowired
@@ -28,6 +29,7 @@ public class SecurityConfig {
             throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable);
+
         http.cors(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests(
@@ -40,6 +42,12 @@ public class SecurityConfig {
 
                 }
         ).formLogin(login -> {
+            login.successHandler(
+                    (request, response, authentication) -> response.setStatus(200)
+            );
+            login.failureHandler(
+                    (request, response, authentication) -> response.setStatus(401)
+            );
         });
 
         return http.build();
