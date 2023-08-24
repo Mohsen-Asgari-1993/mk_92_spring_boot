@@ -6,4 +6,6 @@ public interface RoleService {
     void init();
 
     Role findByName(String name);
+
+    Role createIfNotExistsAndGet(String name);
 }

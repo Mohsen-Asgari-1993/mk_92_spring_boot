@@ -14,12 +14,9 @@ import java.util.Set;
 @Service
 public class UserServiceImpl extends BaseUserServiceImpl<User, UserRepository> implements UserService {
 
-    private final PasswordEncoder passwordEncoder;
-
 
     public UserServiceImpl(UserRepository baseRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
-        super(baseRepository, roleService);
-        this.passwordEncoder = passwordEncoder;
+        super(baseRepository, roleService, passwordEncoder);
     }
 
     @Override

@@ -7,11 +7,14 @@ import ir.maktabsharif92.springboot.base.service.RoleService;
 import ir.maktabsharif92.springboot.util.SecurityInformationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository baseRepository;
@@ -19,6 +22,7 @@ public class RoleServiceImpl implements RoleService {
     private final PermissionService permissionService;
 
     @Override
+    @Transactional
     public void init() {
         if (baseRepository.count() == 0 && permissionService.count() > 0) {
             baseRepository.save(
@@ -37,5 +41,16 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role findByName(String name) {
         return baseRepository.findByName(name);
+    }
+
+    @Override
+    @Transactional
+    public Role createIfNotExistsAndGet(String name) {
+        Role role = baseRepository.findByName(name);
+        if (role == null) {
+            role = new Role(name, new HashSet<>());
+            return baseRepository.save(role);
+        }
+        return role;
     }
 }

@@ -3,6 +3,7 @@ package ir.maktabsharif92.springboot.resource;
 import ir.maktabsharif92.springboot.mapper.RegisterMapper;
 import ir.maktabsharif92.springboot.service.CustomerService;
 import ir.maktabsharif92.springboot.service.dto.RegisterDTO;
+import ir.maktabsharif92.springboot.service.dto.VerifyDTO;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +23,20 @@ public class RegisterResource {
     private final RegisterMapper mapper;
 
     @PostMapping("/customer")
-    public ResponseEntity<?> sendCodeForNewCustomer(@RequestBody @Valid RegisterDTO dto, HttpSession httpSession) {
+    public ResponseEntity<?> sendCodeForNewCustomer(@RequestBody @Valid RegisterDTO dto,
+                                                    HttpSession httpSession) {
         customerService.sendCodeForNewCustomer(
                 mapper.convertToRegister(dto),
+                httpSession
+        );
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/customer/verify")
+    public ResponseEntity<?> verifyCodeForNewCustomer(@RequestBody @Valid VerifyDTO dto,
+                                                      HttpSession httpSession) {
+        customerService.verifyCodeForNewCustomer(
+                dto,
                 httpSession
         );
         return ResponseEntity.ok().build();
