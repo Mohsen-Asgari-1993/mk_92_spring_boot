@@ -12,4 +12,6 @@ public interface BaseUserRepository<E extends User> extends BaseEntityRepository
     //    @EntityGraph(attributePaths = {"roles", "roles.permissions"})
     @EntityGraph(value = User.FETCH_ROLE_PERMISSIONS)
     Optional<E> findByUsername(String username);
+
+    boolean existsByUsername(String username);
 }
