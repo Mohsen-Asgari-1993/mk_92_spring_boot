@@ -3,6 +3,7 @@ package ir.maktabsharif92.springboot.init;
 import ir.maktabsharif92.springboot.base.domain.Permission;
 import ir.maktabsharif92.springboot.base.service.PermissionService;
 import ir.maktabsharif92.springboot.base.service.RoleService;
+import ir.maktabsharif92.springboot.service.AdminService;
 import ir.maktabsharif92.springboot.util.SecurityInformationUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,12 @@ public class UserInitializer {
 
     private final RoleService roleService;
 
+    private final AdminService adminService;
+
     @PostConstruct
     public void init() {
         initRoleAndPermissions();
+        adminService.init();
     }
 
     private void initRoleAndPermissions() {

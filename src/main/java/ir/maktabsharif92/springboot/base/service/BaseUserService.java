@@ -10,4 +10,6 @@ public interface BaseUserService<E extends User> {
 
     long count();
 
+    E save(E e);
+
 }

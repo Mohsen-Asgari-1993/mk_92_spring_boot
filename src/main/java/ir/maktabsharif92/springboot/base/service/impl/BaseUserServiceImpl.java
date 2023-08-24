@@ -6,10 +6,12 @@ import ir.maktabsharif92.springboot.base.service.BaseUserService;
 import ir.maktabsharif92.springboot.base.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BaseUserServiceImpl<E extends User, R extends BaseUserRepository<E>>
         implements BaseUserService<E> {
 
@@ -27,6 +29,12 @@ public class BaseUserServiceImpl<E extends User, R extends BaseUserRepository<E>
     @Override
     public long count() {
         return baseRepository.count();
+    }
+
+    @Override
+    @Transactional
+    public E save(E e) {
+        return baseRepository.save(e);
     }
 
 }
