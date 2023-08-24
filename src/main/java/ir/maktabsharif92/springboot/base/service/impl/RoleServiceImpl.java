@@ -1,10 +1,10 @@
 package ir.maktabsharif92.springboot.base.service.impl;
 
+import ir.maktabsharif92.springboot.base.domain.Permission;
 import ir.maktabsharif92.springboot.base.domain.Role;
 import ir.maktabsharif92.springboot.base.repository.RoleRepository;
 import ir.maktabsharif92.springboot.base.service.PermissionService;
 import ir.maktabsharif92.springboot.base.service.RoleService;
-import ir.maktabsharif92.springboot.util.SecurityInformationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,23 +22,6 @@ public class RoleServiceImpl implements RoleService {
     private final PermissionService permissionService;
 
     @Override
-    @Transactional
-    public void init() {
-        if (baseRepository.count() == 0 && permissionService.count() > 0) {
-            baseRepository.save(
-                    new Role(
-                            SecurityInformationUtil.ADMIN_ROLE,
-                            Set.of(
-                                    permissionService.findByName(
-                                            SecurityInformationUtil.ADMIN_PERMISSION
-                                    )
-                            )
-                    )
-            );
-        }
-    }
-
-    @Override
     public Role findByName(String name) {
         return baseRepository.findByName(name);
     }
@@ -52,5 +35,17 @@ public class RoleServiceImpl implements RoleService {
             return baseRepository.save(role);
         }
         return role;
+    }
+
+    @Override
+    @Transactional
+    public void saveOrUpdate(String roleName, Set<Permission> permissionSet) {
+        Role role = findByName(roleName);
+        if (role == null) {
+            role = new Role();
+            role.setName(roleName);
+        }
+        role.setPermissions(permissionSet);
+        baseRepository.save(role);
     }
 }

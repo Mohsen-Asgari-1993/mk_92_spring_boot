@@ -2,10 +2,11 @@ package ir.maktabsharif92.springboot.base.service;
 
 import ir.maktabsharif92.springboot.base.domain.Permission;
 
-public interface PermissionService {
-    void init();
+import java.util.Set;
 
-    long count();
+public interface PermissionService {
 
     Permission findByName(String name);
+
+    Set<Permission> saveAll(Set<String> permissions);
 }
