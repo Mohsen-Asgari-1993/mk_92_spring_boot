@@ -8,4 +8,6 @@ public interface BaseUserService<E extends User> {
 
     Optional<E> findByUsername(String username);
 
+    long count();
+
 }

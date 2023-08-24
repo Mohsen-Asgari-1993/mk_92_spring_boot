@@ -3,6 +3,7 @@ package ir.maktabsharif92.springboot.base.service.impl;
 import ir.maktabsharif92.springboot.base.domain.User;
 import ir.maktabsharif92.springboot.base.repository.BaseUserRepository;
 import ir.maktabsharif92.springboot.base.service.BaseUserService;
+import ir.maktabsharif92.springboot.base.service.RoleService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
@@ -13,8 +14,16 @@ public class BaseUserServiceImpl<E extends User, R extends BaseUserRepository<E>
 
     protected final R baseRepository;
 
+    protected final RoleService roleService;
+
     @Override
     public Optional<E> findByUsername(String username) {
         return baseRepository.findByUsername(username);
     }
+
+    @Override
+    public long count() {
+        return baseRepository.count();
+    }
+
 }

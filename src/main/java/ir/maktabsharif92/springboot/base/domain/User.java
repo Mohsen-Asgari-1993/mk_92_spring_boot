@@ -46,6 +46,7 @@ public class User extends BaseEntity<Long> {
     public static final String NATIONAL_CODE = "national_code";
     public static final String GENDER = "gender";
     public static final String USERS_ROLE = "users_role";
+    public static final String IS_ENABLED = "is_enabled";
 
     @Column(name = FIRST_NAME)
     private String firstName;
@@ -70,4 +71,6 @@ public class User extends BaseEntity<Long> {
     @JoinTable(name = USERS_ROLE)
     private Set<Role> roles = new HashSet<>();
 
+    @Column(name = IS_ENABLED)
+    private Boolean isEnabled = true;
 }
