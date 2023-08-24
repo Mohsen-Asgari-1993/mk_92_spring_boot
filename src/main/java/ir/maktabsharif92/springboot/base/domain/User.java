@@ -45,6 +45,7 @@ public class User extends BaseEntity<Long> {
     public static final String PASSWORD = "password";
     public static final String NATIONAL_CODE = "national_code";
     public static final String GENDER = "gender";
+    public static final String USER_TYPE = "user_type";
     public static final String USERS_ROLE = "users_role";
     public static final String IS_ENABLED = "is_enabled";
 
@@ -66,6 +67,9 @@ public class User extends BaseEntity<Long> {
     @Column(name = GENDER)
     @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    @Column(name = USER_TYPE)
+    private String userType;
 
     @ManyToMany
     @JoinTable(name = USERS_ROLE)

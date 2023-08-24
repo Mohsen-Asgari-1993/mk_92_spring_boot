@@ -3,6 +3,7 @@ package ir.maktabsharif92.springboot.service.impl;
 import ir.maktabsharif92.springboot.base.service.RoleService;
 import ir.maktabsharif92.springboot.base.service.impl.BaseUserServiceImpl;
 import ir.maktabsharif92.springboot.domain.Customer;
+import ir.maktabsharif92.springboot.domain.enumeration.UserType;
 import ir.maktabsharif92.springboot.repository.CustomerRepository;
 import ir.maktabsharif92.springboot.service.CustomerService;
 import ir.maktabsharif92.springboot.service.dto.Register;
@@ -65,6 +66,7 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
                 passwordEncoder.encode(register.getPassword())
         );
         customer.setCreateDate(ZonedDateTime.now());
+        customer.setUserType(UserType.CUSTOMER.name());
         customer.setRoles(
                 Set.of(
                         roleService.createIfNotExistsAndGet(
