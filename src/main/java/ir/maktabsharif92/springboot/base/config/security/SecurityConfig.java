@@ -41,13 +41,7 @@ public class SecurityConfig {
                             .anyRequest().authenticated();
 
                 }
-        ).formLogin(login -> {
-            login.successHandler(
-                    (request, response, authentication) -> response.setStatus(200)
-            );
-            login.failureHandler(
-                    (request, response, authentication) -> response.setStatus(401)
-            );
+        ).httpBasic(basic -> {
         });
 
         return http.build();
