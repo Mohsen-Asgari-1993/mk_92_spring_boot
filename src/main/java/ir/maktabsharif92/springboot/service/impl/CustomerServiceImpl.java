@@ -1,21 +1,31 @@
 package ir.maktabsharif92.springboot.service.impl;
 
+import ir.maktabsharif92.springboot.base.domain.enumeration.Gender;
 import ir.maktabsharif92.springboot.base.service.RoleService;
 import ir.maktabsharif92.springboot.base.service.impl.BaseUserServiceImpl;
 import ir.maktabsharif92.springboot.domain.Customer;
 import ir.maktabsharif92.springboot.domain.enumeration.UserType;
 import ir.maktabsharif92.springboot.repository.CustomerRepository;
 import ir.maktabsharif92.springboot.service.CustomerService;
+import ir.maktabsharif92.springboot.service.dto.CustomerSearch;
 import ir.maktabsharif92.springboot.service.dto.Register;
 import ir.maktabsharif92.springboot.service.dto.VerifyDTO;
 import ir.maktabsharif92.springboot.util.SecurityInformationUtil;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -77,6 +87,65 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
 
         baseRepository.save(customer);
 
+    }
+
+    @Override
+    public Page<Customer> doAdvanceSearch(CustomerSearch search, Pageable pageable) {
+        return baseRepository.findAll(
+                (root, query, criteriaBuilder) -> {
+                    List<Predicate> predicates = new ArrayList<>();
+                    fillFirstNamePredicate(predicates, root, criteriaBuilder, search.getFirstName());
+                    fillLastNamePredicate(predicates, root, criteriaBuilder, search.getLastName());
+                    fillUsernamePredicate(predicates, root, criteriaBuilder, search.getUsername());
+                    fillGenderPredicate(predicates, root, criteriaBuilder, search.getGender());
+                    return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+                },
+                pageable
+        );
+    }
+
+    private void fillFirstNamePredicate(List<Predicate> predicates, Root<Customer> root,
+                                        CriteriaBuilder criteriaBuilder, String firstName) {
+        if (StringUtils.isNotBlank(firstName)) {
+            predicates.add(
+                    criteriaBuilder.like(
+                            root.get("firstName"), "%" + firstName.trim() + "%"
+                    )
+            );
+        }
+    }
+
+    private void fillLastNamePredicate(List<Predicate> predicates, Root<Customer> root,
+                                       CriteriaBuilder criteriaBuilder, String lastName) {
+        if (StringUtils.isNotBlank(lastName)) {
+            predicates.add(
+                    criteriaBuilder.like(
+                            root.get("lastName"), "%" + lastName.trim() + "%"
+                    )
+            );
+        }
+    }
+
+    private void fillUsernamePredicate(List<Predicate> predicates, Root<Customer> root,
+                                       CriteriaBuilder criteriaBuilder, String username) {
+        if (StringUtils.isNotBlank(username)) {
+            predicates.add(
+                    criteriaBuilder.like(
+                            root.get("username"), "%" + username.trim() + "%"
+                    )
+            );
+        }
+    }
+
+    private void fillGenderPredicate(List<Predicate> predicates, Root<Customer> root,
+                                     CriteriaBuilder criteriaBuilder, Gender gender) {
+        if (gender != null) {
+            predicates.add(
+                    criteriaBuilder.equal(
+                            root.get("gender"), gender
+                    )
+            );
+        }
     }
 
     private void checkMobileNumber(String mobileNumber) {
