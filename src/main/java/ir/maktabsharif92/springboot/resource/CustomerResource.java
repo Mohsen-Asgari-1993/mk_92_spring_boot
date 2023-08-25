@@ -4,7 +4,7 @@ import ir.maktabsharif92.springboot.domain.Customer;
 import ir.maktabsharif92.springboot.mapper.CustomerMapper;
 import ir.maktabsharif92.springboot.service.CustomerService;
 import ir.maktabsharif92.springboot.service.dto.CustomerCardboardDTO;
-import ir.maktabsharif92.springboot.service.dto.CustomerMyProfileDTO;
+import ir.maktabsharif92.springboot.service.dto.CustomerProfileDTO;
 import ir.maktabsharif92.springboot.service.dto.CustomerSearch;
 import ir.maktabsharif92.springboot.service.dto.projection.CustomerMyProfileProjection;
 import ir.maktabsharif92.springboot.util.SecurityInformationUtil;
@@ -37,10 +37,19 @@ public class CustomerResource {
 
     @GetMapping("/my-profile")
     @PreAuthorize("hasAuthority('" + SecurityInformationUtil.CUSTOMER_ROLE + "')")
-    public ResponseEntity<CustomerMyProfileDTO> getMyProfile() {
+    public ResponseEntity<CustomerProfileDTO> getMyProfile() {
         CustomerMyProfileProjection myProfile = baseService.getMyProfile();
         return ResponseEntity.ok(
-                mapper.convertToMyProfileDTO(myProfile)
+                mapper.convertToProfileDTO(myProfile)
+        );
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('" + SecurityInformationUtil.CUSTOMER_READ + "')")
+    public ResponseEntity<CustomerProfileDTO> getCustomerProfile(@PathVariable("id") Long id) {
+        CustomerMyProfileProjection myProfile = baseService.getCustomerProfile(id);
+        return ResponseEntity.ok(
+                mapper.convertToProfileDTO(myProfile)
         );
     }
 }

@@ -20,4 +20,5 @@ public interface CustomerService extends BaseUserService<Customer> {
 
     CustomerMyProfileProjection getMyProfile();
 
+    CustomerMyProfileProjection getCustomerProfile(Long id);
 }

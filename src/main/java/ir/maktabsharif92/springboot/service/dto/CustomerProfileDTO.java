@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerMyProfileDTO implements Serializable {
+public class CustomerProfileDTO implements Serializable {
 
     private Long id;
 

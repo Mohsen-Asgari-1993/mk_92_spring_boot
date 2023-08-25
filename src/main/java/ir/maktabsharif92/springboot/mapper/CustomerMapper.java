@@ -2,7 +2,7 @@ package ir.maktabsharif92.springboot.mapper;
 
 import ir.maktabsharif92.springboot.domain.Customer;
 import ir.maktabsharif92.springboot.service.dto.CustomerCardboardDTO;
-import ir.maktabsharif92.springboot.service.dto.CustomerMyProfileDTO;
+import ir.maktabsharif92.springboot.service.dto.CustomerProfileDTO;
 import ir.maktabsharif92.springboot.service.dto.projection.CustomerMyProfileProjection;
 import org.mapstruct.Mapper;
 
@@ -11,6 +11,6 @@ public interface CustomerMapper {
 
     CustomerCardboardDTO convertToCardboardDTO(Customer customer);
 
-    CustomerMyProfileDTO convertToMyProfileDTO(CustomerMyProfileProjection projection);
+    CustomerProfileDTO convertToProfileDTO(CustomerMyProfileProjection projection);
 
 }

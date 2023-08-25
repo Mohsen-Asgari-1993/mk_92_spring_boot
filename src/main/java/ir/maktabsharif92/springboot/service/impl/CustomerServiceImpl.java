@@ -114,6 +114,14 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
         );
     }
 
+    @Override
+    public CustomerMyProfileProjection getCustomerProfile(Long id) {
+        return baseRepository.findById(
+                id,
+                CustomerMyProfileProjection.class
+        );
+    }
+
     private void fillFirstNamePredicate(List<Predicate> predicates, Root<Customer> root,
                                         CriteriaBuilder criteriaBuilder, String firstName) {
         if (StringUtils.isNotBlank(firstName)) {
