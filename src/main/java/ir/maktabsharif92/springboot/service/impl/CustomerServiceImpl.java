@@ -8,6 +8,7 @@ import ir.maktabsharif92.springboot.domain.Customer;
 import ir.maktabsharif92.springboot.domain.enumeration.UserType;
 import ir.maktabsharif92.springboot.repository.CustomerRepository;
 import ir.maktabsharif92.springboot.service.CustomerService;
+import ir.maktabsharif92.springboot.service.dto.CustomerMyProfileUpdateDTO;
 import ir.maktabsharif92.springboot.service.dto.CustomerSearch;
 import ir.maktabsharif92.springboot.service.dto.Register;
 import ir.maktabsharif92.springboot.service.dto.VerifyDTO;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -120,6 +122,23 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
                 id,
                 CustomerMyProfileProjection.class
         );
+    }
+
+    @Override
+    @Transactional
+    public Customer updateMyProfile(CustomerMyProfileUpdateDTO dto) {
+        Customer customer = baseRepository.findById(
+                        Objects.requireNonNull(
+                                SecurityUtil.getCurrentUserId()
+                        )
+                )
+                .orElseThrow(
+                        () -> new RuntimeException("wrong id")
+                );
+        customer.setFirstName(dto.getFirstName());
+        customer.setLastName(dto.getLastName());
+        customer.setGender(dto.getGender());
+        return customer;
     }
 
     private void fillFirstNamePredicate(List<Predicate> predicates, Root<Customer> root,

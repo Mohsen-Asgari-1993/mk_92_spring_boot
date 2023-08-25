@@ -13,4 +13,6 @@ public interface CustomerMapper {
 
     CustomerProfileDTO convertToProfileDTO(CustomerMyProfileProjection projection);
 
+    CustomerProfileDTO convertToProfileDTO(Customer customer);
+
 }

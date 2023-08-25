@@ -4,10 +4,12 @@ import ir.maktabsharif92.springboot.domain.Customer;
 import ir.maktabsharif92.springboot.mapper.CustomerMapper;
 import ir.maktabsharif92.springboot.service.CustomerService;
 import ir.maktabsharif92.springboot.service.dto.CustomerCardboardDTO;
+import ir.maktabsharif92.springboot.service.dto.CustomerMyProfileUpdateDTO;
 import ir.maktabsharif92.springboot.service.dto.CustomerProfileDTO;
 import ir.maktabsharif92.springboot.service.dto.CustomerSearch;
 import ir.maktabsharif92.springboot.service.dto.projection.CustomerMyProfileProjection;
 import ir.maktabsharif92.springboot.util.SecurityInformationUtil;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,6 +43,15 @@ public class CustomerResource {
         CustomerMyProfileProjection myProfile = baseService.getMyProfile();
         return ResponseEntity.ok(
                 mapper.convertToProfileDTO(myProfile)
+        );
+    }
+
+    @PutMapping("/my-profile")
+    @PreAuthorize("hasAuthority('" + SecurityInformationUtil.CUSTOMER_ROLE + "')")
+    public ResponseEntity<CustomerProfileDTO> updateMyProfile(@RequestBody @Valid CustomerMyProfileUpdateDTO dto) {
+        Customer customer = baseService.updateMyProfile(dto);
+        return ResponseEntity.ok(
+                mapper.convertToProfileDTO(customer)
         );
     }
 

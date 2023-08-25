@@ -11,7 +11,7 @@ public interface CustomerRepository extends BaseUserRepository<Customer> {
 
 
     @Query("select new ir.maktabsharif92.springboot.service.dto." +
-            "CustomerMyProfileDTO(c.id, c.firstName, c.lastName, c.nationalCode, c.gender) " +
+            "CustomerProfileDTO(c.id, c.firstName, c.lastName, c.nationalCode, c.gender) " +
             "from Customer c where c.id = :id")
     CustomerProfileDTO findByIdForMyProfile(@Param("id") Long id);
 
