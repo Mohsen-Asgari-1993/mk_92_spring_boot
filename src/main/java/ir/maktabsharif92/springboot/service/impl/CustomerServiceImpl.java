@@ -8,10 +8,10 @@ import ir.maktabsharif92.springboot.domain.Customer;
 import ir.maktabsharif92.springboot.domain.enumeration.UserType;
 import ir.maktabsharif92.springboot.repository.CustomerRepository;
 import ir.maktabsharif92.springboot.service.CustomerService;
-import ir.maktabsharif92.springboot.service.dto.CustomerMyProfileDTO;
 import ir.maktabsharif92.springboot.service.dto.CustomerSearch;
 import ir.maktabsharif92.springboot.service.dto.Register;
 import ir.maktabsharif92.springboot.service.dto.VerifyDTO;
+import ir.maktabsharif92.springboot.service.dto.projection.CustomerMyProfileProjection;
 import ir.maktabsharif92.springboot.util.SecurityInformationUtil;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
@@ -107,8 +107,8 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
     }
 
     @Override
-    public CustomerMyProfileDTO getMyProfile() {
-        return baseRepository.findByIdForMyProfile(
+    public CustomerMyProfileProjection getMyProfile() {
+        return baseRepository.findByIdAndIdIsNotNull(
                 SecurityUtil.getCurrentUserId()
         );
     }

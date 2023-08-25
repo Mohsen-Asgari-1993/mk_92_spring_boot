@@ -6,6 +6,7 @@ import ir.maktabsharif92.springboot.service.CustomerService;
 import ir.maktabsharif92.springboot.service.dto.CustomerCardboardDTO;
 import ir.maktabsharif92.springboot.service.dto.CustomerMyProfileDTO;
 import ir.maktabsharif92.springboot.service.dto.CustomerSearch;
+import ir.maktabsharif92.springboot.service.dto.projection.CustomerMyProfileProjection;
 import ir.maktabsharif92.springboot.util.SecurityInformationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -37,8 +38,9 @@ public class CustomerResource {
     @GetMapping("/my-profile")
     @PreAuthorize("hasAuthority('" + SecurityInformationUtil.CUSTOMER_ROLE + "')")
     public ResponseEntity<CustomerMyProfileDTO> getMyProfile() {
+        CustomerMyProfileProjection myProfile = baseService.getMyProfile();
         return ResponseEntity.ok(
-                baseService.getMyProfile()
+                mapper.convertToMyProfileDTO(myProfile)
         );
     }
 }
