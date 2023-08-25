@@ -3,10 +3,12 @@ package ir.maktabsharif92.springboot.service.impl;
 import ir.maktabsharif92.springboot.base.domain.enumeration.Gender;
 import ir.maktabsharif92.springboot.base.service.RoleService;
 import ir.maktabsharif92.springboot.base.service.impl.BaseUserServiceImpl;
+import ir.maktabsharif92.springboot.base.util.SecurityUtil;
 import ir.maktabsharif92.springboot.domain.Customer;
 import ir.maktabsharif92.springboot.domain.enumeration.UserType;
 import ir.maktabsharif92.springboot.repository.CustomerRepository;
 import ir.maktabsharif92.springboot.service.CustomerService;
+import ir.maktabsharif92.springboot.service.dto.CustomerMyProfileDTO;
 import ir.maktabsharif92.springboot.service.dto.CustomerSearch;
 import ir.maktabsharif92.springboot.service.dto.Register;
 import ir.maktabsharif92.springboot.service.dto.VerifyDTO;
@@ -101,6 +103,13 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
                     return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
                 },
                 pageable
+        );
+    }
+
+    @Override
+    public CustomerMyProfileDTO getMyProfile() {
+        return baseRepository.findByIdForMyProfile(
+                SecurityUtil.getCurrentUserId()
         );
     }
 

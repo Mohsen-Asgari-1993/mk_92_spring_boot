@@ -4,6 +4,7 @@ import ir.maktabsharif92.springboot.domain.Customer;
 import ir.maktabsharif92.springboot.mapper.CustomerMapper;
 import ir.maktabsharif92.springboot.service.CustomerService;
 import ir.maktabsharif92.springboot.service.dto.CustomerCardboardDTO;
+import ir.maktabsharif92.springboot.service.dto.CustomerMyProfileDTO;
 import ir.maktabsharif92.springboot.service.dto.CustomerSearch;
 import ir.maktabsharif92.springboot.util.SecurityInformationUtil;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/customer")
@@ -33,6 +31,14 @@ public class CustomerResource {
 
         return ResponseEntity.ok(
                 page.map(mapper::convertToCardboardDTO)
+        );
+    }
+
+    @GetMapping("/my-profile")
+    @PreAuthorize("hasAuthority('" + SecurityInformationUtil.CUSTOMER_ROLE + "')")
+    public ResponseEntity<CustomerMyProfileDTO> getMyProfile() {
+        return ResponseEntity.ok(
+                baseService.getMyProfile()
         );
     }
 }
