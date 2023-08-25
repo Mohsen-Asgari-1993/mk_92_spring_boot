@@ -14,6 +14,4 @@ public interface CustomerMyProfileProjection {
 
     Gender getGender();
 
-    String getCode();
-
 }

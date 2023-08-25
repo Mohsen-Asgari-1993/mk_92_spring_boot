@@ -108,8 +108,9 @@ public class CustomerServiceImpl extends BaseUserServiceImpl<Customer, CustomerR
 
     @Override
     public CustomerMyProfileProjection getMyProfile() {
-        return baseRepository.findByIdAndIdIsNotNull(
-                SecurityUtil.getCurrentUserId()
+        return baseRepository.findById(
+                SecurityUtil.getCurrentUserId(),
+                CustomerMyProfileProjection.class
         );
     }
 

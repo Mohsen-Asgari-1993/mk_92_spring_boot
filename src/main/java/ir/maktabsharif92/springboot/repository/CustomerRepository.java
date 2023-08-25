@@ -16,4 +16,6 @@ public interface CustomerRepository extends BaseUserRepository<Customer> {
     CustomerMyProfileDTO findByIdForMyProfile(@Param("id") Long id);
 
     CustomerMyProfileProjection findByIdAndIdIsNotNull(Long id);
+
+    <P> P findById(Long id, Class<P> projectionClass);
 }
