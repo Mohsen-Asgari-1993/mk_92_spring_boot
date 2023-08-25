@@ -10,7 +10,8 @@ public class MyRequestDetail extends AbstractCustomRequestDetail {
     @Override
     public String[] getAllPermitAllUrls() {
         return new String[]{
-                "/ns/**", LoginResource.PATH
+                "/ns/**", LoginResource.PATH, "/swagger-ui/**",
+                "/v3/api-docs/**"
         };
     }
 }

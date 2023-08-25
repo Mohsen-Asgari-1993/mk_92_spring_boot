@@ -1,5 +1,10 @@
 package ir.maktabsharif92.springboot.resource;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import ir.maktabsharif92.springboot.domain.Customer;
 import ir.maktabsharif92.springboot.mapper.CustomerMapper;
 import ir.maktabsharif92.springboot.service.CustomerService;
@@ -28,6 +33,22 @@ public class CustomerResource {
 
     @PostMapping("/advance-search/page")
     @PreAuthorize("hasAuthority('" + SecurityInformationUtil.CUSTOMER_READ_ALL + "')")
+    @Operation(summary = "search on customers, can be used by admin", description = "description search on customer")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200"),
+                    @ApiResponse(
+                            responseCode = "400",
+                            content = {
+                                    @Content(
+                                            examples = {
+                                                    @ExampleObject(value = "{ \"data\" : \"example of data\"  }", name = "test", summary = "summary of test")
+                                            }
+                                    )
+                            }
+                    )
+            }
+    )
     public ResponseEntity<Page<CustomerCardboardDTO>> doAdvanceSearch(@RequestBody CustomerSearch search,
                                                                       Pageable pageable) {
         Page<Customer> page = baseService.doAdvanceSearch(search, pageable);
