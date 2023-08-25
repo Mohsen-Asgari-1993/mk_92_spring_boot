@@ -3,6 +3,7 @@ package ir.maktabsharif92.springboot.init;
 import ir.maktabsharif92.springboot.base.domain.Permission;
 import ir.maktabsharif92.springboot.base.service.PermissionService;
 import ir.maktabsharif92.springboot.base.service.RoleService;
+import ir.maktabsharif92.springboot.service.AboutUsService;
 import ir.maktabsharif92.springboot.service.AdminService;
 import ir.maktabsharif92.springboot.util.SecurityInformationUtil;
 import jakarta.annotation.PostConstruct;
@@ -16,7 +17,7 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class UserInitializer {
+public class DataInitializer {
 
     private final PermissionService permissionService;
 
@@ -24,10 +25,13 @@ public class UserInitializer {
 
     private final AdminService adminService;
 
+    private final AboutUsService aboutUsService;
+
     @PostConstruct
     public void init() {
         initRoleAndPermissions();
         adminService.init();
+        aboutUsService.init();
     }
 
     private void initRoleAndPermissions() {

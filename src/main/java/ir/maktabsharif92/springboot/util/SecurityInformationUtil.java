@@ -17,6 +17,9 @@ public class SecurityInformationUtil {
     public static final String CUSTOMER_READ = "customer:read";
     public static final String CUSTOMER_DELETE = "customer:delete";
 
+    public static final String ABOUT_US_UPDATE = "aboutus:update";
+    public static final String ABOUT_US_READ = "aboutus:read";
+
     static {
 
         rolePermissionMap.put(
@@ -26,7 +29,9 @@ public class SecurityInformationUtil {
                         CUSTOMER_UPDATE,
                         CUSTOMER_READ_ALL,
                         CUSTOMER_READ,
-                        CUSTOMER_DELETE
+                        CUSTOMER_DELETE,
+                        ABOUT_US_UPDATE,
+                        ABOUT_US_READ
                 )
         );
 
